@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canvas Survival Pro</title>
+    <title>Falling Things</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -31,12 +31,14 @@
         <div id="gameOverMenu" class="overlay">
             <h1 style="color: #e74c3c;">GAME OVER</h1>
             <p id="finalScoreDisplay" style="font-size: 24px; margin-bottom: 20px;"></p>
+            <p id="highScoreDisplay" style="font-size: 20px; margin-bottom: 20px; color: #f39c12;"></p>
             <button onclick="resetGame()">Neustart (R)</button>
         </div>
 
         <div id="sidebar">
             <h2 style="margin-top: 0;">Status</h2>
             <div class="stat">Score: <span id="val-score">0</span></div>
+            <div class="stat">Highscore: <span id="val-highscore">0</span></div>
             <div class="stat">Tempo: <span id="val-speed">400</span></div>
             <div class="stat">Welle: <span id="val-wave">1</span></div>
             <div class="stat">Leben: <span id="val-lives">❤️</span></div>
@@ -53,7 +55,7 @@
                     <strong>WASD:</strong> Bewegen<br>
                     <strong>Leertaste halten:</strong> Slow-Mo<br>
                     <strong>Pfeile + Leertaste:</strong> Port (30 E)<br>
-                    <strong>Taste V:</strong> Spezial (50 E)<br>
+                    <strong>Taste Shift:</strong> Spezial (50 E)<br>
                     <strong>ESC:</strong> Pause
                 </p>
             </div>

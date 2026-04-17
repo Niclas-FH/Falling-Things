@@ -14,7 +14,7 @@ const input = {
             if (e.code === 'Escape') togglePause();
             if (e.code === 'KeyR' && gameOver) resetGame();
             
-            if (e.code === 'KeyV') executeSuperAbility();
+            if (e.code === 'ShiftLeft') executeSuperAbility();
 
             if (e.code === 'Space' && !isPaused && !isUpgradePaused && !gameOver && this.isArrowPressed()) {
                 executeTeleport();

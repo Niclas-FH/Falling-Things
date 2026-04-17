@@ -10,6 +10,7 @@ function initGame() {
         const sidebar = document.getElementById('sidebar');
         wrapper.insertBefore(canvas, sidebar);
         ctx = canvas.getContext('2d');
+        loadImages();  
     }
 
     score = 0; lastMilestone = 0; lives = 1; maxLives = 1;
@@ -122,13 +123,15 @@ function loop(timeStamp) {
     });
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#ddd"; ctx.fillRect(0, 300, canvas.width, 300); // Boden
+    ctx.fillStyle = "#988791"; ctx.fillRect(0, 300, canvas.width, 300); // Boden
+    // Optional: Für Hintergrundbilder später hinzufügbar
     player.draw(ctx);
     enemies.forEach(e => e.draw(ctx));
     items.forEach(h => h.draw(ctx));
     ui.update();
     
-    requestAnimationFrame(loop);
+    setInterval()
+    //setIntervall nutzen für Framerate, damit Animationen flüssig und stabil sind 
 }
 
 function startGame() {

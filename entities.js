@@ -1,3 +1,17 @@
+const images = {};
+function loadImages() {
+    const imageFiles = {
+        'player': 'player.png',
+        'enemy': 'enemy.png',
+        'heart': 'heart.png'
+    };
+    
+    for (let key in imageFiles) {
+        images[key] = new Image();
+        images[key].src = imageFiles[key];
+    }
+}
+
 class Player {
     constructor() {
         this.size = 40;
@@ -17,8 +31,12 @@ class Player {
         this.y = Math.max(300, Math.min(this.y, 600 - this.size));
     }
     draw(ctx) {
-        ctx.fillStyle = '#3498db';
-        ctx.fillRect(this.x, this.y, this.size, this.size);
+        if (images['player'] && images['player'].complete) {
+            ctx.drawImage(images['player'], this.x, this.y, this.size, this.size);
+        } else {
+            ctx.fillStyle = '#3498db';
+            ctx.fillRect(this.x, this.y, this.size, this.size);
+        }
         
         if (input.isArrowPressed() && energy >= 40) {
             let tx = this.x, ty = this.y;
@@ -46,8 +64,14 @@ class Entity {
         this.y += this.speed * dt * scale * diff; 
     }
     draw(ctx) {
-        ctx.fillStyle = (this.type === 'enemy' ? '#e74c3c' : '#adff0a');
-        ctx.fillRect(this.x, this.y, this.size, this.size);
+        const imageKey = this.type === 'enemy' ? 'enemy' : 'heart';
+        
+        if (images[imageKey] && images[imageKey].complete) {
+            ctx.drawImage(images[imageKey], this.x, this.y, this.size, this.size);
+        } else {
+            ctx.fillStyle = (this.type === 'enemy' ? '#e74c3c' : '#adff0a');
+            ctx.fillRect(this.x, this.y, this.size, this.size);
+        }
     }
 }
 
