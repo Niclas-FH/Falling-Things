@@ -1,4 +1,6 @@
 let canvas, ctx, lastTime = 0;
+let gameInterval;
+const FPS = 60;
 
 function initGame() {
     if (!canvas) {
@@ -25,7 +27,10 @@ function initGame() {
     ui.showGameOver(false);
     ui.showPause(false);
     ui.showUpgrade(false);
-    requestAnimationFrame(loop);
+    
+    if(gameInterval) clearInterval(gameInterval);
+    
+    gameInterval = setInterval(loop, 1000 / FPS);
 }
 
 function togglePause() {
@@ -34,7 +39,6 @@ function togglePause() {
     ui.showPause(isPaused);
     if (!isPaused) {
         lastTime = performance.now();
-        requestAnimationFrame(loop);
     }
 }
 
@@ -50,7 +54,6 @@ function selectUpgrade(type) {
     isUpgradePaused = false;
     ui.showUpgrade(false);
     lastTime = performance.now();
-    requestAnimationFrame(loop);
 }
 
 function executeTeleport() {
@@ -72,8 +75,10 @@ function executeSuperAbility() {
     energy -= 50;
 }
 
-function loop(timeStamp) {
+function loop() {
     if (gameOver || isPaused || isUpgradePaused) return;
+    
+    const timeStamp = performance.now();
     const dt = (timeStamp - lastTime) / 1000;
     lastTime = timeStamp;
 
@@ -123,15 +128,12 @@ function loop(timeStamp) {
     });
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#988791"; ctx.fillRect(0, 300, canvas.width, 300); // Boden
+    ctx.fillStyle = "#988791"; ctx.fillRect(0, 0, canvas.width, canvas.height); // Boden
     // Optional: Für Hintergrundbilder später hinzufügbar
     player.draw(ctx);
     enemies.forEach(e => e.draw(ctx));
     items.forEach(h => h.draw(ctx));
-    ui.update();
-    
-    setInterval()
-    //setIntervall nutzen für Framerate, damit Animationen flüssig und stabil sind 
+    ui.update(); 
 }
 
 function startGame() {

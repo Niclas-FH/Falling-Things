@@ -1,14 +1,18 @@
 const images = {};
 function loadImages() {
     const imageFiles = {
-        'player': 'player.png',
-        'enemy': 'enemy.png',
-        'heart': 'heart.png'
+        'player': 'images/player.png',
+        'enemy': 'images/enemy.png',
+        'heart': 'images/heart.png'
     };
     
     for (let key in imageFiles) {
         images[key] = new Image();
         images[key].src = imageFiles[key];
+        
+        images[key].onerror = () => {
+            console.error(`Fehler: Bild ${imageFiles[key]} konnte nicht geladen werden. Pfad korrekt?`);
+        };
     }
 }
 
