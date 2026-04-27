@@ -11,12 +11,20 @@
         <div id="startMenu" class="overlay active">
             <h1 style="color: #3498db; margin-bottom: 10px;">SURVIVAL PRO</h1>
             <p style="margin-bottom: 30px; opacity: 0.8;">Drücke den Button zum Starten</p>
-            <button onclick="startGame()">Spiel Starten</button>
+            <div class="volume-control">
+                <label for="volumeSliderStart" style="margin-bottom: 10px; display: block;">Lautstärke: <span id="volumeValueStart">10</span>/10</label>
+                <input type="range" id="volumeSliderStart" min="0" max="10" value="10" class="volume-slider" onchange="setVolume(this.value)" oninput="updateVolumeDisplay('Start', this.value)">
+            </div>
+            <button onclick="startGame()" style="margin-top: 20px;">Spiel Starten</button>
         </div>
 
         <div id="pauseMenu" class="overlay">
             <h1>PAUSE</h1>
-            <button onclick="resumeGame()">Fortfahren (ESC)</button>
+            <div class="volume-control">
+                <label for="volumeSliderPause" style="margin-bottom: 10px; display: block;">Lautstärke: <span id="volumeValuePause">10</span>/10</label>
+                <input type="range" id="volumeSliderPause" min="0" max="10" value="10" class="volume-slider" onchange="setVolume(this.value)" oninput="updateVolumeDisplay('Pause', this.value)">
+            </div>
+            <button onclick="resumeGame()" style="margin-top: 20px;">Fortfahren (ESC)</button>
             <button onclick="resetGame()">Neustart</button>
         </div>
 
@@ -62,6 +70,10 @@
         </div>
         
         </div>
+
+    <audio id="backgroundMusic" loop>
+        <source src="sound/background.mp3" type="audio/mpeg">
+    </audio>
 
     <script src="ui.js"></script>
     <script src="input.js"></script>

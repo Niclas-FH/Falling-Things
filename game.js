@@ -1,6 +1,63 @@
 let canvas, ctx, lastTime = 0;
 let gameInterval;
 const FPS = 60;
+let backgroundMusic;
+let isSlowMotionActive = false;
+
+// Musik-Steuerung
+function initAudio() {
+    if (!backgroundMusic) {
+        backgroundMusic = document.getElementById('backgroundMusic');
+    }
+}
+
+function playBackgroundMusic() {
+    if (backgroundMusic) {
+        backgroundMusic.play().catch(e => console.log('Musik konnte nicht abgespielt werden:', e));
+    }
+}
+
+function pauseBackgroundMusic() {
+    if (backgroundMusic) {
+        backgroundMusic.pause();
+    }
+}
+
+function stopBackgroundMusic() {
+    pauseBackgroundMusic();
+    if (backgroundMusic) {
+        backgroundMusic.currentTime = 0;
+    }
+}
+
+function setVolume(value) {
+    if (backgroundMusic) {
+        backgroundMusic.volume = value / 10;
+    }
+    localStorage.setItem('survivalProVolume', value);
+}
+
+function updateVolumeDisplay(source, value) {
+    if (source === 'Start') {
+        document.getElementById('volumeValueStart').innerText = value;
+        document.getElementById('volumeSliderPause').value = value;
+        document.getElementById('volumeValuePause').innerText = value;
+    } else if (source === 'Pause') {
+        document.getElementById('volumeValuePause').innerText = value;
+        document.getElementById('volumeSliderStart').value = value;
+        document.getElementById('volumeValueStart').innerText = value;
+    }
+}
+
+function initVolume() {
+    const savedVolume = localStorage.getItem('survivalProVolume');
+    const volume = savedVolume ? parseInt(savedVolume) : 10;
+    document.getElementById('volumeSliderStart').value = volume;
+    document.getElementById('volumeValueStart').innerText = volume;
+    document.getElementById('volumeSliderPause').value = volume;
+    document.getElementById('volumeValuePause').innerText = volume;
+    setVolume(volume);
+}
 
 function initGame() {
     if (!canvas) {
@@ -29,6 +86,9 @@ function initGame() {
     ui.showUpgrade(false);
     
     if(gameInterval) clearInterval(gameInterval);
+    
+    initAudio();
+    playBackgroundMusic();
     
     gameInterval = setInterval(loop, 1000 / FPS);
 }
@@ -92,6 +152,16 @@ function loop() {
 
     const slow = input.keys['Space'] && !input.isArrowPressed() && energy > 0;
     const scale = slow ? slowMoFactor : 1.0;
+    
+    // Musik-Geschwindigkeit anpassen bei SlowMotion
+    if (slow && !isSlowMotionActive) {
+        isSlowMotionActive = true;
+        if (backgroundMusic) backgroundMusic.playbackRate = 0.5;
+    } else if (!slow && isSlowMotionActive) {
+        isSlowMotionActive = false;
+        if (backgroundMusic) backgroundMusic.playbackRate = 1.0;
+    }
+    
     if (slow) energy -= 40 * dt;
 
     player.update(dt);
@@ -115,6 +185,7 @@ function loop() {
                     lives--;
                     if (lives <= 0) {
                         gameOver = true;
+                        stopBackgroundMusic();
                         ui.showGameOver(true);
                     }
                 } else {
@@ -141,4 +212,5 @@ function startGame() {
     initGame();
 }
 
+initVolume();
 input.init();
