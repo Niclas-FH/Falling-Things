@@ -16,6 +16,7 @@
                 <input type="range" id="volumeSliderStart" min="0" max="10" value="10" class="volume-slider" onchange="setVolume(this.value)" oninput="updateVolumeDisplay('Start', this.value)">
             </div>
             <button onclick="startGame()" style="margin-top: 20px;">Spiel Starten</button>
+            <button onclick="showTutorial()">Anleitung</button>
         </div>
 
         <div id="pauseMenu" class="overlay">
@@ -41,6 +42,39 @@
             <p id="finalScoreDisplay" style="font-size: 24px; margin-bottom: 20px;"></p>
             <p id="highScoreDisplay" style="font-size: 20px; margin-bottom: 20px; color: #f39c12;"></p>
             <button onclick="resetGame()">Neustart (R)</button>
+            <button onclick="goToStart()">Zur Startseite</button>
+        </div>
+
+        <div id="tutorialMenu" class="overlay tutorial-overlay">
+            <div class="tutorial-content">
+                <h1 style="color: #3498db; margin-bottom: 20px;">ANLEITUNG</h1>
+                <div class="tutorial-text">
+                    <h3 style="color: #f39c12; margin-top: 15px; margin-bottom: 10px;">🎮 Ziel des Spiels</h3>
+                    <p>Überlebe so lange wie möglich und sammle Punkte! Weiche den fallenden Blöcken aus und nutze Power-Ups.</p>
+
+                    <h3 style="color: #f39c12; margin-top: 15px; margin-bottom: 10px;">⌨️ Steuerung</h3>
+                    <p><strong>WASD oder Pfeiltasten:</strong> Dich bewegen</p>
+                    <p><strong>Leertaste (halten):</strong> Zeitlupe aktivieren (Slow-Mo)</p>
+                    <p><strong>Pfeiltasten + Leertaste:</strong> Teleportation nutzen (kostet 30 Energie)</p>
+                    <p><strong>Shift:</strong> Spezialangriff (kostet 50 Energie)</p>
+                    <p><strong>ESC:</strong> Spiel pausieren</p>
+
+                    <h3 style="color: #f39c12; margin-top: 15px; margin-bottom: 10px;">⚡ Energie-System</h3>
+                    <p>Sammle Energie-Items um deine Fähigkeiten zu nutzen. Energie wird durch fallende Items aufgeladen.</p>
+
+                    <h3 style="color: #f39c12; margin-top: 15px; margin-bottom: 10px;">🎁 Upgrades</h3>
+                    <p>Wenn du eine bestimmte Punktzahl erreichst, wählst du ein Upgrade:</p>
+                    <p>• <strong>Tempo:</strong> Deine Geschwindigkeit erhöht sich</p>
+                    <p>• <strong>Slow-Mo:</strong> Zeitlupe wird stärker</p>
+                    <p>• <strong>Leben:</strong> Ein zusätzliches Leben</p>
+
+                    <h3 style="color: #f39c12; margin-top: 15px; margin-bottom: 10px;">💡 Tipps</h3>
+                    <p>• Bleibe immer in Bewegung und weiche rechtzeitig aus</p>
+                    <p>• Nutze Zeitlupe für schwierige Momente</p>
+                    <p>• Sammle Energie für strategische Vorteile</p>
+                </div>
+                <button onclick="closeTutorial()" style="margin-top: 20px;">Zurück</button>
+            </div>
         </div>
 
         <div id="sidebar">

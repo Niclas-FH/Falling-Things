@@ -59,6 +59,16 @@ function initVolume() {
     setVolume(volume);
 }
 
+function showTutorial() {
+    document.getElementById('startMenu').classList.remove('active');
+    document.getElementById('tutorialMenu').classList.add('active');
+}
+
+function closeTutorial() {
+    document.getElementById('tutorialMenu').classList.remove('active');
+    document.getElementById('startMenu').classList.add('active');
+}
+
 function initGame() {
     if (!canvas) {
         canvas = document.createElement('canvas');
@@ -74,7 +84,8 @@ function initGame() {
 
     score = 0; lastMilestone = 0; lives = 1; maxLives = 1;
     playerSpeed = 400; slowMoFactor = 0.75;
-    energy = 0; enemies = []; items = []; spawnTimer = 0; itemTimer = 0;
+    energy = 0; enemies = []; items = []; spawnTimer = 0; itemTimer = 0; laserSpawnCounter = 0;
+    waveSpawnCount = 0; lastWave = 1;
     enemiesPerSpawn = 1; gameOver = false; isPaused = false; isUpgradePaused = false;
     upgradeReady = false; 
     
@@ -88,6 +99,7 @@ function initGame() {
     if(gameInterval) clearInterval(gameInterval);
     
     initAudio();
+    initVolume();
     playBackgroundMusic();
     
     gameInterval = setInterval(loop, 1000 / FPS);
@@ -104,6 +116,12 @@ function togglePause() {
 
 function resumeGame() { if(isPaused) togglePause(); }
 function resetGame() { initGame(); }
+function goToStart() { 
+    stopBackgroundMusic();
+    gameOver = false;
+    ui.showGameOver(false);
+    ui.showStart(true);
+}
 
 function selectUpgrade(type) {
     if (type === 'speed') playerSpeed *= 1.3;
@@ -169,7 +187,33 @@ function loop() {
 
     spawnTimer += dt * scale * (1 + score/1500);
     if (spawnTimer >= 1) {
+        // Wenn sich die Welle ändert, reset Wave-Counter
+        if (enemiesPerSpawn !== lastWave) {
+            lastWave = enemiesPerSpawn;
+            waveSpawnCount = 0;
+        }
+        
         for(let i=0; i<enemiesPerSpawn; i++) enemies.push(new Entity('enemy'));
+        
+        // Laser-Spawn-Logik: maximal 1 Laser auf dem Bildschirm
+        if (enemiesPerSpawn >= 2) {
+            waveSpawnCount++;
+            let laserSpawnPoints = [];
+            
+            if (enemiesPerSpawn === 2) {
+                laserSpawnPoints = [3]; // Welle 2: 1 Laser insgesamt
+            } else if (enemiesPerSpawn === 3) {
+                laserSpawnPoints = [4, 12]; // Welle 3: 2 Laser insgesamt mit Abstand
+            } else {
+                laserSpawnPoints = [4, 12, 20]; // Welle 4+: 3 Laser insgesamt mit Abstand
+            }
+            
+            // Spawne Laser basierend auf Spawn-Index der Welle
+            if (laserSpawnPoints.includes(waveSpawnCount)) {
+                enemies.push(new LaserLine());
+            }
+        }
+        
         spawnTimer = 0;
     }
 
@@ -178,10 +222,21 @@ function loop() {
 
     [enemies, items].forEach(list => {
         for (let i = list.length - 1; i >= 0; i--) {
-            list[i].update(dt, scale, 1 + score/1500);
-            if (player.x < list[i].x + 30 && player.x + 40 > list[i].x && 
-                player.y < list[i].y + 30 && player.y + 40 > list[i].y) {
-                if (list[i].type === 'enemy') {
+            list[i].update(dt, scale, Math.min(2000 / 300, 1 + score/1500));
+            
+            // Collision-Detection basierend auf Entity-Typ
+            let collides = false;
+            if (list[i].type === 'laser') {
+                // Laser: 800x10, überprüfe Y-Überlapp
+                collides = player.y < list[i].y + list[i].height && player.y + 40 > list[i].y;
+            } else {
+                // Normale Entities: 30x30
+                collides = player.x < list[i].x + 30 && player.x + 40 > list[i].x && 
+                           player.y < list[i].y + 30 && player.y + 40 > list[i].y;
+            }
+            
+            if (collides) {
+                if (list[i].type === 'enemy' || list[i].type === 'laser') {
                     lives--;
                     if (lives <= 0) {
                         gameOver = true;
@@ -189,7 +244,11 @@ function loop() {
                         ui.showGameOver(true);
                     }
                 } else {
-                    if (lives < maxLives) lives++;
+                    if (lives < maxLives) {
+                        lives++;
+                    } else {
+                        score += 100; // Bonus für volle Herzen
+                    }
                 }
                 list.splice(i, 1);
             } else if (list[i].y > 600) {

@@ -7,6 +7,7 @@ var highScore = localStorage.getItem('survivalProHighScore') ? parseInt(localSto
 const ui = {
     showStart(visible) {
         document.getElementById('startMenu').classList.toggle('active', visible);
+        if (visible) document.getElementById('tutorialMenu').classList.remove('active');
     },
     update() {
         let currentScore = Math.floor(score);

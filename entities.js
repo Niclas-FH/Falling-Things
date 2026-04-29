@@ -79,4 +79,22 @@ class Entity {
     }
 }
 
+class LaserLine {
+    constructor() {
+        this.type = 'laser';
+        this.width = 800;
+        this.height = 10;
+        this.x = 0;
+        this.y = -this.height;
+        this.speed = 250;
+    }
+    update(dt, scale, diff) {
+        this.y += this.speed * dt * scale * diff;
+    }
+    draw(ctx) {
+        ctx.fillStyle = '#ff1493';
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+}
+
 var player = new Player();
