@@ -32,7 +32,7 @@ class Player {
         if (moved && energy < 100) energy += 10 * dt;
         
         this.x = Math.max(0, Math.min(this.x, 800 - this.size));
-        this.y = Math.max(300, Math.min(this.y, 600 - this.size));
+        this.y = Math.max(0, Math.min(this.y, 600 - this.size));
     }
     draw(ctx) {
         if (images['player'] && images['player'].complete) {
@@ -50,7 +50,7 @@ class Player {
             if (input.keys['ArrowDown']) ty += 130;
             ctx.fillStyle = 'rgba(46, 204, 113, 1)';
             ctx.setLineDash([5, 5]);
-            ctx.strokeRect(Math.max(0, Math.min(tx, 760)), Math.max(300, Math.min(ty, 560)), 40, 40);
+            ctx.strokeRect(Math.max(0, Math.min(tx, 760)), Math.max(0, Math.min(ty, 560)), 40, 40);
             ctx.setLineDash([]);
         }
     }

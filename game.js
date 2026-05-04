@@ -2,12 +2,21 @@ let canvas, ctx, lastTime = 0;
 let gameInterval;
 const FPS = 60;
 let backgroundMusic;
+let gameOverSound;
+let teleportSound;
 let isSlowMotionActive = false;
+let gameOverPauseEndTime = 0;
 
 // Musik-Steuerung
 function initAudio() {
     if (!backgroundMusic) {
         backgroundMusic = document.getElementById('backgroundMusic');
+    }
+    if (!gameOverSound) {
+        gameOverSound = document.getElementById('gameOverSound');
+    }
+    if (!teleportSound) {
+        teleportSound = document.getElementById('teleportSound');
     }
 }
 
@@ -27,6 +36,22 @@ function stopBackgroundMusic() {
     pauseBackgroundMusic();
     if (backgroundMusic) {
         backgroundMusic.currentTime = 0;
+    }
+}
+
+function playGameOverSound() {
+    if (gameOverSound) {
+        gameOverSound.currentTime = 0;
+        gameOverSound.play().catch(e => console.log('Game Over Sound konnte nicht abgespielt werden:', e));
+    }
+    // Starte 4-Sekunden Pause nach Game Over
+    gameOverPauseEndTime = performance.now() + 4000;
+}
+
+function playTeleportSound() {
+    if (teleportSound) {
+        teleportSound.currentTime = 0;
+        teleportSound.play().catch(e => console.log('Teleport Sound konnte nicht abgespielt werden:', e));
     }
 }
 
@@ -142,8 +167,9 @@ function executeTeleport() {
     if (input.keys['ArrowUp']) ty -= 130;
     if (input.keys['ArrowDown']) ty += 130;
     player.x = Math.max(0, Math.min(tx, 760));
-    player.y = Math.max(300, Math.min(ty, 560));
+    player.y = Math.max(0, Math.min(ty, 560));
     energy -= 30;
+    playTeleportSound();
 }
 
 function executeSuperAbility() {
@@ -154,6 +180,12 @@ function executeSuperAbility() {
 }
 
 function loop() {
+    // Wenn Game Over Pause aktiv ist, überprüfe ob die 4 Sekunden vorbei sind
+    if (gameOver && gameOverPauseEndTime > 0 && performance.now() >= gameOverPauseEndTime) {
+        gameOverPauseEndTime = 0; // Reset
+        ui.showGameOver(true);
+    }
+    
     if (gameOver || isPaused || isUpgradePaused) return;
     
     const timeStamp = performance.now();
@@ -164,6 +196,9 @@ function loop() {
         lastMilestone = Math.floor(score / 500);
         upgradeReady = true;
         isUpgradePaused = true;
+        // Lösche alle Gegner und Herzen beim Upgrade-Screen
+        enemies = [];
+        items = [];
         ui.showUpgrade(true);
         return;
     }
@@ -241,7 +276,7 @@ function loop() {
                     if (lives <= 0) {
                         gameOver = true;
                         stopBackgroundMusic();
-                        ui.showGameOver(true);
+                        playGameOverSound();
                     }
                 } else {
                     if (lives < maxLives) {
