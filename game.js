@@ -4,6 +4,9 @@ const FPS = 60;
 let backgroundMusic;
 let gameOverSound;
 let teleportSound;
+let collectHeartSound;
+let damageSound;
+let explosionSound;
 let isSlowMotionActive = false;
 let gameOverPauseEndTime = 0;
 
@@ -17,6 +20,15 @@ function initAudio() {
     }
     if (!teleportSound) {
         teleportSound = document.getElementById('teleportSound');
+    }
+    if (!collectHeartSound) {
+        collectHeartSound = document.getElementById('collectHeartSound');
+    }
+    if (!damageSound) {
+        damageSound = document.getElementById('damageSound');
+    }
+    if (!explosionSound) {
+        explosionSound = document.getElementById('explosionSound');
     }
 }
 
@@ -52,6 +64,27 @@ function playTeleportSound() {
     if (teleportSound) {
         teleportSound.currentTime = 0;
         teleportSound.play().catch(e => console.log('Teleport Sound konnte nicht abgespielt werden:', e));
+    }
+}
+
+function playCollectHeartSound() {
+    if (collectHeartSound) {
+        collectHeartSound.currentTime = 0;
+        collectHeartSound.play().catch(e => console.log('Collect Heart Sound konnte nicht abgespielt werden:', e));
+    }
+}
+
+function playDamageSound() {
+    if (damageSound) {
+        damageSound.currentTime = 0;
+        damageSound.play().catch(e => console.log('Damage Sound konnte nicht abgespielt werden:', e));
+    }
+}
+
+function playExplosionSound() {
+    if (explosionSound) {
+        explosionSound.currentTime = 0;
+        explosionSound.play().catch(e => console.log('Explosion Sound konnte nicht abgespielt werden:', e));
     }
 }
 
@@ -177,6 +210,7 @@ function executeSuperAbility() {
    
     enemies = [];
     energy -= 50;
+    playExplosionSound();
 }
 
 function loop() {
@@ -273,12 +307,14 @@ function loop() {
             if (collides) {
                 if (list[i].type === 'enemy' || list[i].type === 'laser') {
                     lives--;
+                    playDamageSound();
                     if (lives <= 0) {
                         gameOver = true;
                         stopBackgroundMusic();
                         playGameOverSound();
                     }
                 } else {
+                    playCollectHeartSound();
                     if (lives < maxLives) {
                         lives++;
                     } else {
