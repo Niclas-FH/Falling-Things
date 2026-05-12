@@ -12,8 +12,12 @@
             <h1 style="color: #3498db; margin-bottom: 10px;">SURVIVAL PRO</h1>
             <p style="margin-bottom: 30px; opacity: 0.8;">Drücke den Button zum Starten</p>
             <div class="volume-control">
-                <label for="volumeSliderStart" style="margin-bottom: 10px; display: block;">Lautstärke: <span id="volumeValueStart">10</span>/10</label>
+                <label for="volumeSliderStart" style="margin-bottom: 10px; display: block;">Musik: <span id="volumeValueStart">10</span>/10</label>
                 <input type="range" id="volumeSliderStart" min="0" max="10" value="10" class="volume-slider" onchange="setVolume(this.value)" oninput="updateVolumeDisplay('Start', this.value)">
+            </div>
+            <div class="volume-control">
+                <label for="soundVolumeSliderStart" style="margin-bottom: 10px; display: block;">Sounds: <span id="soundVolumeValueStart">10</span>/10</label>
+                <input type="range" id="soundVolumeSliderStart" min="0" max="10" value="10" class="volume-slider" onchange="setSoundVolume(this.value)" oninput="updateSoundVolumeDisplay('Start', this.value)">
             </div>
             <button onclick="startGame()" style="margin-top: 20px;">Spiel Starten</button>
             <button onclick="showTutorial()">Anleitung</button>
@@ -22,8 +26,12 @@
         <div id="pauseMenu" class="overlay">
             <h1>PAUSE</h1>
             <div class="volume-control">
-                <label for="volumeSliderPause" style="margin-bottom: 10px; display: block;">Lautstärke: <span id="volumeValuePause">10</span>/10</label>
+                <label for="volumeSliderPause" style="margin-bottom: 10px; display: block;">Musik: <span id="volumeValuePause">10</span>/10</label>
                 <input type="range" id="volumeSliderPause" min="0" max="10" value="10" class="volume-slider" onchange="setVolume(this.value)" oninput="updateVolumeDisplay('Pause', this.value)">
+            </div>
+            <div class="volume-control">
+                <label for="soundVolumeSliderPause" style="margin-bottom: 10px; display: block;">Sounds: <span id="soundVolumeValuePause">10</span>/10</label>
+                <input type="range" id="soundVolumeSliderPause" min="0" max="10" value="10" class="volume-slider" onchange="setSoundVolume(this.value)" oninput="updateSoundVolumeDisplay('Pause', this.value)">
             </div>
             <button onclick="resumeGame()" style="margin-top: 20px;">Fortfahren (ESC)</button>
             <button onclick="resetGame()">Neustart</button>
@@ -85,7 +93,7 @@
             <div class="stat">Welle: <span id="val-wave">1</span></div>
             <div class="stat">Leben: <span id="val-lives">❤️</span></div>
             <div class="stat">
-                Energie: 
+                <div style="margin-bottom: 5px;">Energie: <span id="val-energy" style="font-weight: bold; color: #2ecc71;">0</span>/100</div>
                 <div id="energy-bar">
                     <div id="energy-fill"></div>
                 </div>

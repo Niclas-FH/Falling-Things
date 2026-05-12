@@ -49,6 +49,11 @@ canvas {
     background: #2ecc71; 
     transition: width 0.1s;
 }
+#val-energy {
+    font-weight: bold;
+    color: #2ecc71;
+    font-size: 14px;
+}
 .overlay { 
     position: absolute; 
     top: 0; 

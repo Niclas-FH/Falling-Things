@@ -95,6 +95,16 @@ function setVolume(value) {
     localStorage.setItem('survivalProVolume', value);
 }
 
+function setSoundVolume(value) {
+    const volumeLevel = value / 10;
+    if (gameOverSound) gameOverSound.volume = volumeLevel;
+    if (teleportSound) teleportSound.volume = volumeLevel;
+    if (collectHeartSound) collectHeartSound.volume = volumeLevel;
+    if (damageSound) damageSound.volume = volumeLevel;
+    if (explosionSound) explosionSound.volume = volumeLevel;
+    localStorage.setItem('survivalProSoundVolume', value);
+}
+
 function updateVolumeDisplay(source, value) {
     if (source === 'Start') {
         document.getElementById('volumeValueStart').innerText = value;
@@ -107,6 +117,18 @@ function updateVolumeDisplay(source, value) {
     }
 }
 
+function updateSoundVolumeDisplay(source, value) {
+    if (source === 'Start') {
+        document.getElementById('soundVolumeValueStart').innerText = value;
+        document.getElementById('soundVolumeSliderPause').value = value;
+        document.getElementById('soundVolumeValuePause').innerText = value;
+    } else if (source === 'Pause') {
+        document.getElementById('soundVolumeValuePause').innerText = value;
+        document.getElementById('soundVolumeSliderStart').value = value;
+        document.getElementById('soundVolumeValueStart').innerText = value;
+    }
+}
+
 function initVolume() {
     const savedVolume = localStorage.getItem('survivalProVolume');
     const volume = savedVolume ? parseInt(savedVolume) : 10;
@@ -115,6 +137,14 @@ function initVolume() {
     document.getElementById('volumeSliderPause').value = volume;
     document.getElementById('volumeValuePause').innerText = volume;
     setVolume(volume);
+    
+    const savedSoundVolume = localStorage.getItem('survivalProSoundVolume');
+    const soundVolume = savedSoundVolume ? parseInt(savedSoundVolume) : 10;
+    document.getElementById('soundVolumeSliderStart').value = soundVolume;
+    document.getElementById('soundVolumeValueStart').innerText = soundVolume;
+    document.getElementById('soundVolumeSliderPause').value = soundVolume;
+    document.getElementById('soundVolumeValuePause').innerText = soundVolume;
+    setSoundVolume(soundVolume);
 }
 
 function showTutorial() {

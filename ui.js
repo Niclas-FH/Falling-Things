@@ -22,6 +22,7 @@ const ui = {
         for(let i=0; i<maxLives; i++) heartUI += (i < lives) ? "❤️" : "🖤";
         document.getElementById('val-lives').innerText = heartUI;
         
+        document.getElementById('val-energy').innerText = Math.floor(energy);
         document.getElementById('energy-fill').style.width = energy + "%";
     },
     showPause(visible) {

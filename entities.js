@@ -177,7 +177,7 @@ class LaserLine {
         this.y += this.speed * dt * scale * diff;
     }
     draw(ctx) {
-        ctx.fillStyle = '#ff1493';
+        ctx.fillStyle = '#fffb14';
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 }
