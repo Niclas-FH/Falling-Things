@@ -13,7 +13,7 @@ body {
     display: flex; 
     border: 4px solid #333; 
     position: relative; 
-    background: #eee;
+    background: url('images/background.png') center/cover no-repeat;
     
     min-width: 1050px; 
     min-height: 600px;

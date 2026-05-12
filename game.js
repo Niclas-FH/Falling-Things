@@ -195,10 +195,10 @@ function selectUpgrade(type) {
 function executeTeleport() {
     if (energy < 30) return;
     let tx = player.x, ty = player.y;
-    if (input.keys['ArrowLeft']) tx -= 130;
-    if (input.keys['ArrowRight']) tx += 130;
-    if (input.keys['ArrowUp']) ty -= 130;
-    if (input.keys['ArrowDown']) ty += 130;
+    if (input.keys['ArrowLeft']) tx -= 160;
+    if (input.keys['ArrowRight']) tx += 160;
+    if (input.keys['ArrowUp']) ty -= 160;
+    if (input.keys['ArrowDown']) ty += 160;
     player.x = Math.max(0, Math.min(tx, 760));
     player.y = Math.max(0, Math.min(ty, 560));
     energy -= 30;
@@ -329,9 +329,14 @@ function loop() {
     });
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#988791"; ctx.fillRect(0, 0, canvas.width, canvas.height); // Boden
-    // Optional: Für Hintergrundbilder später hinzufügbar
-    player.draw(ctx);
+    // Hintergrundbild zeichnen
+    if (images['background'] && images['background'].complete) {
+        ctx.drawImage(images['background'], 0, 0, canvas.width, canvas.height);
+    } else {
+        ctx.fillStyle = "#988791";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+    player.draw(ctx, slow);
     enemies.forEach(e => e.draw(ctx));
     items.forEach(h => h.draw(ctx));
     ui.update(); 

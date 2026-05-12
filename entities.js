@@ -1,10 +1,22 @@
 const images = {};
 function loadImages() {
     const imageFiles = {
-        'player': 'images/player.png',
         'enemy': 'images/enemy.png',
-        'heart': 'images/heart.png'
+        'heart': 'images/heart.png',
+        'background': 'images/background.png'
     };
+    
+    // Spieler-Sprites für alle Tier und Richtungen laden
+    const playerTiers = ['player', 'playerIron', 'playerGold', 'playerDiamond', 'playerNetherite'];
+    const playerStates = ['', 'Right', 'Left', 'Down', 'Up', 'Slow'];
+    
+    playerTiers.forEach(tier => {
+        playerStates.forEach(state => {
+            const key = tier + state;
+            const path = `images/${tier}/${tier}${state}.png`;
+            imageFiles[key] = path;
+        });
+    });
     
     for (let key in imageFiles) {
         images[key] = new Image();
@@ -21,37 +33,110 @@ class Player {
         this.size = 40;
         this.x = 400;
         this.y = 500;
+        this.lastDirection = ''; // '', 'Right', 'Left', 'Down', 'Up'
+        this.isSlowActive = false;
+        this.slowAnimationTimer = 0;
+        this.slowAnimationInterval = 0.15; // Sekunden für Animation
     }
+    
+    getTierName() {
+        // Bestimme den Tier-Namen basierend auf der Anzahl der Leben (maxLives)
+        switch(maxLives) {
+            case 1: return 'player';
+            case 2: return 'playerIron';
+            case 3: return 'playerGold';
+            case 4: return 'playerDiamond';
+            case 5: return 'playerNetherite';
+            default: return 'playerNetherite';
+        }
+    }
+    
+    getPlayerImageName() {
+        const tier = this.getTierName();
+        
+        if (this.isSlowActive) {
+            return tier + 'Slow';
+        }
+        
+        return tier + this.lastDirection;
+    }
+    
     update(dt) {
         let moved = false;
-        if (input.keys['KeyA']) { this.x -= playerSpeed * dt; moved = true; }
-        if (input.keys['KeyD']) { this.x += playerSpeed * dt; moved = true; }
-        if (input.keys['KeyW']) { this.y -= playerSpeed * dt; moved = true; }
-        if (input.keys['KeyS']) { this.y += playerSpeed * dt; moved = true; }
+        let currentDirection = '';
+        
+        // Bewegung tracken und Richtung speichern
+        if (input.keys['KeyA']) { this.x -= playerSpeed * dt; moved = true; currentDirection = 'Left'; }
+        if (input.keys['KeyD']) { this.x += playerSpeed * dt; moved = true; currentDirection = 'Right'; }
+        if (input.keys['KeyW']) { this.y -= playerSpeed * dt; moved = true; currentDirection = 'Up'; }
+        if (input.keys['KeyS']) { this.y += playerSpeed * dt; moved = true; currentDirection = 'Down'; }
+        
+        // Wenn keine Bewegung und keine Slow aktiv, zurücksetzen auf Standard
+        if (!moved && !this.isSlowActive) {
+            this.lastDirection = '';
+        } else if (moved) {
+            this.lastDirection = currentDirection;
+        }
         
         if (moved && energy < 100) energy += 10 * dt;
         
         this.x = Math.max(0, Math.min(this.x, 800 - this.size));
         this.y = Math.max(0, Math.min(this.y, 600 - this.size));
     }
-    draw(ctx) {
-        if (images['player'] && images['player'].complete) {
-            ctx.drawImage(images['player'], this.x, this.y, this.size, this.size);
+    
+    draw(ctx, isSlow = false) {
+        this.isSlowActive = isSlow;
+        
+        if (this.isSlowActive) {
+            this.slowAnimationTimer += 1 / 60; // Etwa 1/60 pro Frame bei 60 FPS
+            if (this.slowAnimationTimer >= this.slowAnimationInterval * 2) {
+                this.slowAnimationTimer = 0;
+            }
         } else {
+            this.slowAnimationTimer = 0;
+        }
+        
+        const imageName = this.getPlayerImageName();
+        const image = images[imageName];
+        
+        if (image && image.complete) {
+            if (this.isSlowActive) {
+                // Slow-Mo Animation: Wechsle zwischen linker und rechter Hälfte
+                const isLeftHalf = this.slowAnimationTimer < this.slowAnimationInterval;
+                const sourceX = isLeftHalf ? 0 : image.width / 2;
+                const sourceY = 0;
+                const sourceWidth = image.width / 2;
+                const sourceHeight = image.height;
+                
+                // Zeichne die entsprechende Hälfte des Bildes
+                ctx.drawImage(
+                    image,
+                    sourceX, sourceY, sourceWidth, sourceHeight,
+                    this.x, this.y, this.size, this.size
+                );
+            } else {
+                // Normal: Ganzes Bild zeichnen
+                ctx.drawImage(image, this.x, this.y, this.size, this.size);
+            }
+        } else {
+            // Fallback wenn Bild nicht geladen
             ctx.fillStyle = '#3498db';
             ctx.fillRect(this.x, this.y, this.size, this.size);
         }
         
-        if (input.isArrowPressed() && energy >= 40) {
+        if (input.isArrowPressed() && energy >= 30) {
             let tx = this.x, ty = this.y;
-            if (input.keys['ArrowLeft']) tx -= 130;
-            if (input.keys['ArrowRight']) tx += 130;
-            if (input.keys['ArrowUp']) ty -= 130;
-            if (input.keys['ArrowDown']) ty += 130;
-            ctx.fillStyle = 'rgba(46, 204, 113, 1)';
-            ctx.setLineDash([5, 5]);
-            ctx.strokeRect(Math.max(0, Math.min(tx, 760)), Math.max(0, Math.min(ty, 560)), 40, 40);
-            ctx.setLineDash([]);
+            if (input.keys['ArrowLeft']) tx -= 160;
+            if (input.keys['ArrowRight']) tx += 160;
+            if (input.keys['ArrowUp']) ty -= 160;
+            if (input.keys['ArrowDown']) ty += 160;
+            ctx.strokeStyle = 'rgb(153, 0, 255)'; 
+            ctx.lineWidth = 5;                     
+            ctx.lineJoin = 'round';             
+            ctx.setLineDash([10, 5]); 
+            ctx.strokeRect(
+            Math.max(0, Math.min(tx, 760)), 
+            Math.max(0, Math.min(ty, 560)), 40, 40);
         }
     }
 }
