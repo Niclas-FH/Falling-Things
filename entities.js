@@ -4,7 +4,8 @@ function loadImages() {
         'enemy': 'images/enemy.png',
         'heart': 'images/heart.png',
         'background': 'images/background.png',
-        'bonus100': 'images/100.png'
+        'bonus100': 'images/100.png',
+        'tnt': 'images/tnt.png'
     };
     
     // Spieler-Sprites für alle Tier und Richtungen laden
@@ -202,6 +203,41 @@ class LaserLine {
     draw(ctx) {
         ctx.fillStyle = '#fffb14';
         ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+}
+
+class BombEffect {
+    constructor(x, y) {
+        const size = player ? player.size : 40;
+        this.x = Math.max(0, Math.min(x, 800 - size));
+        this.y = Math.max(0, Math.min(y, 600 - size));
+        this.startTime = performance.now();
+        this.duration = 3000;
+        this.frameDuration = 333;
+        this.triggered = false;
+        this.size = size;
+    }
+
+    draw(ctx) {
+        const image = images['tnt'];
+        if (image && image.complete) {
+            const frameIndex = Math.floor((performance.now() - this.startTime) / this.frameDuration) % 3;
+            const frameWidth = Math.floor(image.width / 3);
+            ctx.drawImage(
+                image,
+                frameIndex * frameWidth,
+                0,
+                frameWidth,
+                image.height,
+                this.x,
+                this.y,
+                this.size,
+                this.size
+            );
+        } else {
+            ctx.fillStyle = '#ff3d00';
+            ctx.fillRect(this.x, this.y, this.size, this.size);
+        }
     }
 }
 

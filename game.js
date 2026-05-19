@@ -9,6 +9,7 @@ let damageSound;
 let explosionSound;
 let isSlowMotionActive = false;
 let gameOverPauseEndTime = 0;
+let bombEffects = [];
 
 // Musik-Steuerung
 function initAudio() {
@@ -257,10 +258,10 @@ function executeTeleport() {
     playTeleportSound();
 }
 
-function executeSuperAbility() {
+function executeBomb() {
     if (energy < 50) return;
-   
-    enemies = [];
+
+    bombEffects.push(new BombEffect(player.x, player.y));
     energy -= 50;
     playExplosionSound();
 }
@@ -376,6 +377,16 @@ function loop() {
         }
     });
 
+    const currentTime = performance.now();
+    bombEffects = bombEffects.filter(effect => {
+        const elapsed = currentTime - effect.startTime;
+        if (!effect.triggered && elapsed >= effect.duration) {
+            enemies = [];
+            effect.triggered = true;
+        }
+        return elapsed < effect.duration;
+    });
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (images['background'] && images['background'].complete) {
         ctx.drawImage(images['background'], 0, 0, canvas.width, canvas.height);
@@ -386,6 +397,7 @@ function loop() {
     player.draw(ctx, slow);
     enemies.forEach(e => e.draw(ctx));
     items.forEach(h => h.draw(ctx));
+    bombEffects.forEach(effect => effect.draw(ctx));
     ui.update(); 
 }
 
