@@ -9,7 +9,14 @@ const ui = {
         document.getElementById('startMenu').classList.toggle('active', visible);
         if (visible) document.getElementById('tutorialMenu').classList.remove('active');
     },
-    update() {
+    showStory(visible) {
+        document.getElementById('storyMenu').classList.toggle('active', visible);
+        if (visible) {
+            document.getElementById('startMenu').classList.remove('active');
+            document.getElementById('tutorialMenu').classList.remove('active');
+        }
+    },
+    update() { 
         let currentScore = Math.floor(score);
         document.getElementById('val-score').innerText = currentScore;
         

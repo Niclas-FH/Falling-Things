@@ -76,8 +76,46 @@ canvas {
     align-items: center; 
     text-align: center;
 }
+#startMenu,
+#pauseMenu,
+#gameOverMenu {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images/ui/backgroundMain.png') center/cover no-repeat;
+}
 .overlay.active { 
     display: flex; 
+}
+#startMenu,
+#pauseMenu,
+#gameOverMenu {
+    background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('images/ui/backgroundMain.png') center/cover no-repeat;
+}
+#storyMenu {
+    background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('images/story/story.png') center/cover no-repeat;
+}
+.story-start-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 220px;
+    height: 50px;
+    font-size: 18px;
+    background-image: none;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: 2px solid #fff;
+}
+.start-close-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 160px;
+    height: 40px;
+    font-size: 14px;
+    background-image: none;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: 2px solid #fff;
+    cursor: pointer;
 }
 button { 
     background-image: url('images/ui/button.png');

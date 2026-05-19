@@ -3,7 +3,8 @@ function loadImages() {
     const imageFiles = {
         'enemy': 'images/enemy.png',
         'heart': 'images/heart.png',
-        'background': 'images/background.png'
+        'background': 'images/background.png',
+        'bonus100': 'images/100.png'
     };
     
     // Spieler-Sprites für alle Tier und Richtungen laden
@@ -33,14 +34,19 @@ class Player {
         this.size = 40;
         this.x = 400;
         this.y = 500;
-        this.lastDirection = ''; // '', 'Right', 'Left', 'Down', 'Up'
+        this.lastDirection = ''; 
         this.isSlowActive = false;
         this.slowAnimationTimer = 0;
         this.slowAnimationInterval = 0.15; // Sekunden für Animation
+        this.bonusTimer = 0;
+    }
+
+    triggerBonus100() {
+        this.bonusTimer = 1.2; 
     }
     
     getTierName() {
-        // Bestimme den Tier-Namen basierend auf der Anzahl der Leben (maxLives)
+        
         switch(maxLives) {
             case 1: return 'player';
             case 2: return 'playerIron';
@@ -65,13 +71,11 @@ class Player {
         let moved = false;
         let currentDirection = '';
         
-        // Bewegung tracken und Richtung speichern
         if (input.keys['KeyA']) { this.x -= playerSpeed * dt; moved = true; currentDirection = 'Left'; }
         if (input.keys['KeyD']) { this.x += playerSpeed * dt; moved = true; currentDirection = 'Right'; }
         if (input.keys['KeyW']) { this.y -= playerSpeed * dt; moved = true; currentDirection = 'Up'; }
         if (input.keys['KeyS']) { this.y += playerSpeed * dt; moved = true; currentDirection = 'Down'; }
         
-        // Wenn keine Bewegung und keine Slow aktiv, zurücksetzen auf Standard
         if (!moved && !this.isSlowActive) {
             this.lastDirection = '';
         } else if (moved) {
@@ -101,21 +105,19 @@ class Player {
         
         if (image && image.complete) {
             if (this.isSlowActive) {
-                // Slow-Mo Animation: Wechsle zwischen linker und rechter Hälfte
+                
                 const isLeftHalf = this.slowAnimationTimer < this.slowAnimationInterval;
                 const sourceX = isLeftHalf ? 0 : image.width / 2;
                 const sourceY = 0;
                 const sourceWidth = image.width / 2;
                 const sourceHeight = image.height;
                 
-                // Zeichne die entsprechende Hälfte des Bildes
                 ctx.drawImage(
                     image,
                     sourceX, sourceY, sourceWidth, sourceHeight,
                     this.x, this.y, this.size, this.size
                 );
             } else {
-                // Normal: Ganzes Bild zeichnen
                 ctx.drawImage(image, this.x, this.y, this.size, this.size);
             }
         } else {
@@ -137,6 +139,27 @@ class Player {
             ctx.strokeRect(
             Math.max(0, Math.min(tx, 760)), 
             Math.max(0, Math.min(ty, 560)), 40, 40);
+        }
+
+        if (this.bonusTimer > 0) {
+            this.bonusTimer -= 1 / 60;
+            const bonusImage = images['bonus100'];
+            if (bonusImage && bonusImage.complete) {
+                const bonusWidth = 80;
+                const bonusHeight = 32;
+                ctx.drawImage(
+                    bonusImage,
+                    this.x + this.size / 2 - bonusWidth / 2,
+                    this.y - bonusHeight - 8,
+                    bonusWidth,
+                    bonusHeight
+                );
+            } else {
+                ctx.fillStyle = 'yellow';
+                ctx.font = 'bold 20px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('+100', this.x + this.size / 2, this.y - 10);
+            }
         }
     }
 }

@@ -157,6 +157,16 @@ function closeTutorial() {
     document.getElementById('startMenu').classList.add('active');
 }
 
+function closeGame() {
+    window.close();
+    window.location.href = 'about:blank';
+}
+
+function openStory() {
+    ui.showStart(false);
+    ui.showStory(true);
+}
+
 function initGame() {
     if (!canvas) {
         canvas = document.createElement('canvas');
@@ -203,11 +213,23 @@ function togglePause() {
 }
 
 function resumeGame() { if(isPaused) togglePause(); }
+function stopGameLoop() {
+    if (gameInterval) {
+        clearInterval(gameInterval);
+        gameInterval = null;
+    }
+}
 function resetGame() { initGame(); }
 function goToStart() { 
     stopBackgroundMusic();
+    stopGameLoop();
     gameOver = false;
+    isPaused = false;
+    isUpgradePaused = false;
     ui.showGameOver(false);
+    ui.showPause(false);
+    ui.showUpgrade(false);
+    ui.showStory(false);
     ui.showStart(true);
 }
 
@@ -244,7 +266,6 @@ function executeSuperAbility() {
 }
 
 function loop() {
-    // Wenn Game Over Pause aktiv ist, überprüfe ob die 4 Sekunden vorbei sind
     if (gameOver && gameOverPauseEndTime > 0 && performance.now() >= gameOverPauseEndTime) {
         gameOverPauseEndTime = 0; // Reset
         ui.showGameOver(true);
@@ -260,7 +281,7 @@ function loop() {
         lastMilestone = Math.floor(score / 500);
         upgradeReady = true;
         isUpgradePaused = true;
-        // Lösche alle Gegner und Herzen beim Upgrade-Screen
+        
         enemies = [];
         items = [];
         ui.showUpgrade(true);
@@ -270,7 +291,6 @@ function loop() {
     const slow = input.keys['Space'] && !input.isArrowPressed() && energy > 0;
     const scale = slow ? slowMoFactor : 1.0;
     
-    // Musik-Geschwindigkeit anpassen bei SlowMotion
     if (slow && !isSlowMotionActive) {
         isSlowMotionActive = true;
         if (backgroundMusic) backgroundMusic.playbackRate = 0.5;
@@ -323,13 +343,10 @@ function loop() {
         for (let i = list.length - 1; i >= 0; i--) {
             list[i].update(dt, scale, Math.min(2000 / 300, 1 + score/1500));
             
-            // Collision-Detection basierend auf Entity-Typ
             let collides = false;
             if (list[i].type === 'laser') {
-                // Laser: 800x10, überprüfe Y-Überlapp
                 collides = player.y < list[i].y + list[i].height && player.y + 40 > list[i].y;
             } else {
-                // Normale Entities: 30x30
                 collides = player.x < list[i].x + 30 && player.x + 40 > list[i].x && 
                            player.y < list[i].y + 30 && player.y + 40 > list[i].y;
             }
@@ -349,6 +366,7 @@ function loop() {
                         lives++;
                     } else {
                         score += 100; // Bonus für volle Herzen
+                        player.triggerBonus100();
                     }
                 }
                 list.splice(i, 1);
@@ -359,7 +377,6 @@ function loop() {
     });
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // Hintergrundbild zeichnen
     if (images['background'] && images['background'].complete) {
         ctx.drawImage(images['background'], 0, 0, canvas.width, canvas.height);
     } else {
@@ -373,7 +390,7 @@ function loop() {
 }
 
 function startGame() {
-    ui.showStart(false);
+    ui.showStory(false);
     initGame();
 }
 

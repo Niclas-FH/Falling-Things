@@ -9,6 +9,7 @@
 <body>
     <div id="game-wrapper">
         <div id="startMenu" class="overlay active">
+            <button class="start-close-button" onclick="closeGame()">Spiel beenden</button>
             <img src="images/ui/logo.png" alt="Logo" style="margin-bottom: 20px; height: 100px;">
             <p style="margin-bottom: 30px; opacity: 0.8;">Drücke den Button zum Starten</p>
             <div class="volume-control">
@@ -19,8 +20,12 @@
                 <label for="soundVolumeSliderStart" style="margin-bottom: 10px; display: block;">Sounds: <span id="soundVolumeValueStart">10</span>/10</label>
                 <input type="range" id="soundVolumeSliderStart" min="0" max="10" value="10" class="volume-slider" onchange="setSoundVolume(this.value)" oninput="updateSoundVolumeDisplay('Start', this.value)">
             </div>
-            <button onclick="startGame()" style="margin-top: 20px;">Spiel Starten</button>
+            <button onclick="openStory()" style="margin-top: 20px;">Spiel Starten</button>
             <button onclick="showTutorial()">Anleitung</button>
+        </div>
+
+        <div id="storyMenu" class="overlay story-overlay">
+            <button class="story-start-button" onclick="startGame()">Spiel starten</button>
         </div>
 
         <div id="pauseMenu" class="overlay">
@@ -35,6 +40,7 @@
             </div>
             <button onclick="resumeGame()" style="margin-top: 20px;">Fortfahren (ESC)</button>
             <button onclick="resetGame()">Neustart</button>
+            <button onclick="goToStart()">Zur Startseite</button>
         </div>
 
         <div id="upgradeMenu" class="overlay">
