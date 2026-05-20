@@ -29,13 +29,13 @@ canvas {
 }
 #sidebar { 
     width: 250px; 
-    background: #2c3e50; 
+    background: #000000; 
     padding: 20px; 
     border-left: 4px solid #333; 
     box-sizing: border-box; 
 }
 .stat { 
-    background: #34495e; 
+    background: #323232; 
     padding: 10px; 
     margin-bottom: 10px; 
     border-radius: 5px; 
@@ -51,12 +51,12 @@ canvas {
 #energy-fill { 
     width: 0%; 
     height: 100%; 
-    background: #2ecc71; 
+    background: #d0c200; 
     transition: width 0.1s;
 }
 #val-energy {
     font-weight: bold;
-    color: #2ecc71;
+    color: #d0c200;;
     font-size: 14px;
 }
 .overlay { 
@@ -99,10 +99,14 @@ canvas {
     width: 220px;
     height: 50px;
     font-size: 18px;
-    background-image: none;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-image: url('images/ui/button.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
     color: white;
-    border: 2px solid #fff;
+    border: none;
+    cursor: pointer;
 }
 .start-close-button {
     position: absolute;
@@ -111,13 +115,17 @@ canvas {
     width: 160px;
     height: 40px;
     font-size: 14px;
-    background-image: none;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-image: url('images/ui/button.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
     color: white;
-    border: 2px solid #fff;
+    border: none;
     cursor: pointer;
 }
 button { 
+    font-family: 'CustomFont', sans-serif;
     background-image: url('images/ui/button.png');
     background-size: contain;
     background-repeat: no-repeat;
@@ -133,7 +141,7 @@ button {
     height: 50px;
 }
 button:hover { 
-    background: #2980b9; 
+    background: #d0c200;; 
 }
 .volume-control {
     margin: 20px;
