@@ -151,7 +151,7 @@ button:hover {
     width: 100%;
     height: 8px;
     border-radius: 5px;
-    background: #34495e;
+    background: #d0c200;
     outline: none;
     -webkit-appearance: none;
     appearance: none;
@@ -162,19 +162,19 @@ button:hover {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #3498db;
+    background:#f8e800;
     cursor: pointer;
 }
 .volume-slider::-moz-range-thumb {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #3498db;
+    background: #d0c200;
     cursor: pointer;
     border: none;
 }
 .volume-slider::-moz-range-track {
-    background: #34495e;
+    background: #f8e800;
     border: none;
 }
 .tutorial-overlay {

@@ -300,7 +300,10 @@ function loop() {
         if (backgroundMusic) backgroundMusic.playbackRate = 1.0;
     }
     
-    if (slow) energy -= 40 * dt;
+    if (slow) {
+        energy -= 40 * dt;
+        if (energy < 0) energy = 0;
+    }
 
     player.update(dt);
     score += dt * 10;
