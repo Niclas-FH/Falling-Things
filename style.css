@@ -141,7 +141,7 @@ button {
     height: 50px;
 }
 button:hover { 
-    background: #d0c200;; 
+    background: #ffca18; 
 }
 .volume-control {
     margin: 20px;
@@ -151,10 +151,16 @@ button:hover {
     width: 100%;
     height: 8px;
     border-radius: 5px;
-    background: #34495e;
+    background: #ffca18;
     outline: none;
     -webkit-appearance: none;
     appearance: none;
+}
+.volume-slider::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 8px;
+    background: #ffca18;
+    border-radius: 5px;
 }
 .volume-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -162,23 +168,25 @@ button:hover {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #3498db;
+    background: #b8860b;
     cursor: pointer;
+    transform: translateY(-6px);
 }
 .volume-slider::-moz-range-thumb {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #3498db;
+    background: #b8860b;
     cursor: pointer;
     border: none;
+    transform: translateY(-6px);
 }
 .volume-slider::-moz-range-track {
-    background: #34495e;
+    background: #ffca18;
     border: none;
 }
 .tutorial-overlay {
-    background: rgba(30, 128, 138, 0.95);
+    background: #b8860b;
     justify-content: flex-start;
     padding-top: 20px;
 }

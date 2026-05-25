@@ -9,9 +9,19 @@ const input = {
                 return;
             }
             
+            if (e.code === 'Escape') {
+                if (document.getElementById('tutorialMenu').classList.contains('active')) {
+                    e.preventDefault();
+                    closeTutorial();
+                    return;
+                }
+                if (!gameInterval) return;
+                togglePause();
+                return;
+            }
+
             this.keys[e.code] = true;
 
-            if (e.code === 'Escape') togglePause();
             if (e.code === 'KeyR' && gameOver) resetGame();
             
             if (e.code === 'ShiftLeft') executeBomb();

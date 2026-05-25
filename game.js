@@ -205,7 +205,7 @@ function initGame() {
 }
 
 function togglePause() {
-    if (gameOver || isUpgradePaused) return;
+    if (!gameInterval || gameOver || isUpgradePaused) return;
     isPaused = !isPaused;
     ui.showPause(isPaused);
     if (!isPaused) {
