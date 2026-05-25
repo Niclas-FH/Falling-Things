@@ -37,7 +37,7 @@ class Player {
         this.lastDirection = ''; 
         this.isSlowActive = false;
         this.slowAnimationTimer = 0;
-        this.slowAnimationInterval = 0.15; // Sekunden für Animation
+        this.slowAnimationInterval = 0.15; 
         this.bonusTimer = 0;
     }
 
@@ -128,7 +128,6 @@ class Player {
                 ctx.drawImage(image, this.x, this.y, this.size, this.size);
             }
         } else {
-            // Fallback wenn Bild nicht geladen
             ctx.fillStyle = '#3498db';
             ctx.fillRect(this.x, this.y, this.size, this.size);
         }

@@ -11,7 +11,6 @@ let isSlowMotionActive = false;
 let gameOverPauseEndTime = 0;
 let bombEffects = [];
 
-// Musik-Steuerung
 function initAudio() {
     if (!backgroundMusic) {
         backgroundMusic = document.getElementById('backgroundMusic');
@@ -310,7 +309,6 @@ function loop() {
 
     spawnTimer += dt * scale * (1 + score/1500);
     if (spawnTimer >= 1) {
-        // Wenn sich die Welle ändert, reset Wave-Counter
         if (enemiesPerSpawn !== lastWave) {
             lastWave = enemiesPerSpawn;
             waveSpawnCount = 0;
@@ -318,20 +316,18 @@ function loop() {
         
         for(let i=0; i<enemiesPerSpawn; i++) enemies.push(new Entity('enemy'));
         
-        // Laser-Spawn-Logik: maximal 1 Laser auf dem Bildschirm
         if (enemiesPerSpawn >= 2) {
             waveSpawnCount++;
             let laserSpawnPoints = [];
             
             if (enemiesPerSpawn === 2) {
-                laserSpawnPoints = [3]; // Welle 2: 1 Laser insgesamt
+                laserSpawnPoints = [3]; 
             } else if (enemiesPerSpawn === 3) {
-                laserSpawnPoints = [4, 12]; // Welle 3: 2 Laser insgesamt mit Abstand
+                laserSpawnPoints = [4, 12]; 
             } else {
-                laserSpawnPoints = [4, 12, 20]; // Welle 4+: 3 Laser insgesamt mit Abstand
+                laserSpawnPoints = [4, 12, 20];
             }
-            
-            // Spawne Laser basierend auf Spawn-Index der Welle
+    
             if (laserSpawnPoints.includes(waveSpawnCount)) {
                 enemies.push(new LaserLine());
             }
