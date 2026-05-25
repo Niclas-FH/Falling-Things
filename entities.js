@@ -8,7 +8,6 @@ function loadImages() {
         'tnt': 'images/tnt.png'
     };
     
-    // Spieler-Sprites für alle Tier und Richtungen laden
     const playerTiers = ['player', 'playerIron', 'playerGold', 'playerDiamond', 'playerNetherite'];
     const playerStates = ['', 'Right', 'Left', 'Down', 'Up', 'Slow'];
     
@@ -69,28 +68,32 @@ class Player {
     }
     
     update(dt) {
-        let moved = false;
-        let currentDirection = '';
-        
-        if (input.keys['KeyA']) { this.x -= playerSpeed * dt; moved = true; currentDirection = 'Left'; }
-        if (input.keys['KeyD']) { this.x += playerSpeed * dt; moved = true; currentDirection = 'Right'; }
-        if (input.keys['KeyW']) { this.y -= playerSpeed * dt; moved = true; currentDirection = 'Up'; }
-        if (input.keys['KeyS']) { this.y += playerSpeed * dt; moved = true; currentDirection = 'Down'; }
-        
-        if (!moved && !this.isSlowActive) {
-            this.lastDirection = '';
-        } else if (moved) {
-            this.lastDirection = currentDirection;
-        }
-        
-        if (moved && energy < 100) {
-            energy += 10 * dt;
-            if (energy > 100) energy = 100;
-        }
-        
-        this.x = Math.max(0, Math.min(this.x, 800 - this.size));
-        this.y = Math.max(0, Math.min(this.y, 600 - this.size));
+    let currentDirection = '';
+    
+    const oldX = this.x;
+    const oldY = this.y;
+    
+    if (input.keys['KeyA']) { this.x -= playerSpeed * dt; currentDirection = 'Left'; }
+    if (input.keys['KeyD']) { this.x += playerSpeed * dt; currentDirection = 'Right'; }
+    if (input.keys['KeyW']) { this.y -= playerSpeed * dt; currentDirection = 'Up'; }
+    if (input.keys['KeyS']) { this.y += playerSpeed * dt; currentDirection = 'Down'; }
+    
+    this.x = Math.max(0, Math.min(this.x, 800 - this.size));
+    this.y = Math.max(0, Math.min(this.y, 600 - this.size));
+    
+    const trulyMoved = (this.x !== oldX || this.y !== oldY);
+    
+    if (!trulyMoved && !this.isSlowActive) {
+        this.lastDirection = '';
+    } else if (trulyMoved) {
+        this.lastDirection = currentDirection;
     }
+    
+    if (trulyMoved && energy < 100) {
+        energy += 10 * dt;
+        if (energy > 100) energy = 100;
+    }
+}
     
     draw(ctx, isSlow = false) {
         this.isSlowActive = isSlow;

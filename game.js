@@ -268,7 +268,7 @@ function executeBomb() {
 
 function loop() {
     if (gameOver && gameOverPauseEndTime > 0 && performance.now() >= gameOverPauseEndTime) {
-        gameOverPauseEndTime = 0; // Reset
+        gameOverPauseEndTime = 0; 
         ui.showGameOver(true);
     }
     
@@ -369,7 +369,7 @@ function loop() {
                     if (lives < maxLives) {
                         lives++;
                     } else {
-                        score += 100; // Bonus für volle Herzen
+                        score += 100; 
                         player.triggerBonus100();
                     }
                 }

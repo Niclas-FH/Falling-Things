@@ -14,19 +14,21 @@ body {
     height: 100vh; 
     overflow: hidden; 
 }
+
 #game-wrapper { 
     display: flex; 
     border: 4px solid #333; 
     position: relative; 
     background: url('images/background.png') center/cover no-repeat;
-    
     min-width: 1050px; 
     min-height: 600px;
     margin: auto; 
 }
+
 canvas { 
     display: block; 
 }
+
 #sidebar { 
     width: 250px; 
     background: #000000; 
@@ -34,12 +36,14 @@ canvas {
     border-left: 4px solid #333; 
     box-sizing: border-box; 
 }
+
 .stat { 
     background: #323232; 
     padding: 10px; 
     margin-bottom: 10px; 
     border-radius: 5px; 
 }
+
 #energy-bar { 
     width: 100%; 
     height: 15px; 
@@ -48,50 +52,50 @@ canvas {
     margin-top: 5px; 
     overflow: hidden; 
 }
+
 #energy-fill { 
     width: 0%; 
     height: 100%; 
     background: #d0c200; 
     transition: width 0.1s;
 }
+
 #val-energy {
     font-weight: bold;
-    color: #d0c200;;
+    color: #d0c200;
     font-size: 14px;
 }
+
 .overlay { 
     position: absolute; 
     top: 0; 
     left: 0; 
-    
     width: 1050px; 
     height: 600px; 
-    
     background: rgba(0, 0, 0, 1); 
     z-index: 10; 
-
     display: none;
     flex-direction: column; 
     justify-content: center; 
     align-items: center; 
     text-align: center;
 }
-#startMenu,
-#pauseMenu,
-#gameOverMenu {
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images/ui/backgroundMain.png') center/cover no-repeat;
-}
+
 .overlay.active { 
     display: flex; 
 }
+
 #startMenu,
 #pauseMenu,
+#upgradeMenu,
 #gameOverMenu {
     background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('images/ui/backgroundMain.png') center/cover no-repeat;
 }
+
 #storyMenu {
     background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('images/story/story.png') center/cover no-repeat;
 }
+
 .story-start-button {
     position: absolute;
     bottom: 20px;
@@ -108,6 +112,7 @@ canvas {
     border: none;
     cursor: pointer;
 }
+
 .start-close-button {
     position: absolute;
     top: 20px;
@@ -124,6 +129,7 @@ canvas {
     border: none;
     cursor: pointer;
 }
+
 button { 
     font-family: 'CustomFont', sans-serif;
     background-image: url('images/ui/button.png');
@@ -140,67 +146,65 @@ button {
     width: 200px; 
     height: 50px;
 }
+
 button:hover { 
     background: #ffca18; 
 }
+
 .volume-control {
     margin: 20px;
     width: 300px;
 }
+
 .volume-slider {
     width: 100%;
     height: 8px;
     border-radius: 5px;
-<<<<<<< HEAD
     background: #ffca18;
->>>>>>> fdb3bd54105ab9d76f3df3cd5424ac0b419cf2cd
     outline: none;
     -webkit-appearance: none;
     appearance: none;
 }
+
 .volume-slider::-webkit-slider-runnable-track {
     width: 100%;
     height: 8px;
     background: #ffca18;
     border-radius: 5px;
 }
+
 .volume-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 20px;
     height: 20px;
     border-radius: 50%;
-<<<<<<< HEAD
-    background: #b8860b;>>>>>>> fdb3bd54105ab9d76f3df3cd5424ac0b419cf2cd
+    background: #b8860b;
     cursor: pointer;
     transform: translateY(-6px);
 }
+
 .volume-slider::-moz-range-thumb {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-<<<<<<< HEAD
     background: #b8860b;
-=======
-    background: #d0c200;
->>>>>>> fdb3bd54105ab9d76f3df3cd5424ac0b419cf2cd
     cursor: pointer;
     border: none;
     transform: translateY(-6px);
 }
+
 .volume-slider::-moz-range-track {
-<<<<<<< HEAD
-    background: #ffca18;
-=======
     background: #f8e800;
->>>>>>> fdb3bd54105ab9d76f3df3cd5424ac0b419cf2cd
     border: none;
 }
+
 .tutorial-overlay {
-    background: #b8860b;
+    background: #201700;
     justify-content: flex-start;
     padding-top: 20px;
 }
+
 .tutorial-content {
     width: 90%;
     height: 95%;
@@ -208,6 +212,7 @@ button:hover {
     padding: 20px;
     box-sizing: border-box;
 }
+
 .tutorial-text {
     text-align: left;
     max-width: 600px;
@@ -215,10 +220,12 @@ button:hover {
     line-height: 1.8;
     font-size: 14px;
 }
+
 .tutorial-text p {
     margin: 8px 0;
     opacity: 0.9;
 }
+
 .tutorial-text h3 {
     margin: 15px 0 10px 0;
 }

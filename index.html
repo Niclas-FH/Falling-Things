@@ -10,8 +10,8 @@
     <div id="game-wrapper">
         <div id="startMenu" class="overlay active">
             <button class="start-close-button" onclick="closeGame()">Spiel beenden</button>
-            <img src="images/ui/logo.png" alt="Logo" style="margin-bottom: 20px; height: 100px;">
-            <p style="margin-bottom: 30px; opacity: 0.8;">Drücke den Button zum Starten</p>
+            <img src="images/ui/logo.png" alt="Logo" style="margin-bottom: 20px; height: 150px;">
+            <p style="margin-bottom: 30px; opacity: 0.8;">Drücke den Button "Spiel Starten"  zum Starten</p>
             <div class="volume-control">
                 <label for="volumeSliderStart" style="margin-bottom: 10px; display: block;">Musik: <span id="volumeValueStart">10</span>/10</label>
                 <input type="range" id="volumeSliderStart" min="0" max="10" value="10" class="volume-slider" onchange="setVolume(this.value)" oninput="updateVolumeDisplay('Start', this.value)">
@@ -46,13 +46,13 @@
         <div id="upgradeMenu" class="overlay">
             <h2 style="color: #f39c12;">UPGRADE BEREIT!</h2>
             <p style="margin-bottom: 20px;">Wähle einen Bonus:</p>
-            <button onclick="selectUpgrade('speed')">1. Tempo</button>
-            <button onclick="selectUpgrade('slow')">2. Slow-Mo</button>
-            <button onclick="selectUpgrade('life')">3. Leben</button>
+            <button onclick="selectUpgrade('speed')">1. Tempo erhöhen</button>
+            <button onclick="selectUpgrade('slow')">2. Slow-Mo steigern</button>
+            <button onclick="selectUpgrade('life')">3. + Leben</button>
         </div>
 
         <div id="gameOverMenu" class="overlay">
-            <h1 style="color: #e74c3c;">GAME OVER</h1>
+            <h1 style="color: #ff1900;">GAME OVER</h1>
             <p id="finalScoreDisplay" style="font-size: 24px; margin-bottom: 20px;"></p>
             <p id="highScoreDisplay" style="font-size: 20px; margin-bottom: 20px; color: #f39c12;"></p>
             <button onclick="resetGame()">Neustart (R)</button>
@@ -61,58 +61,69 @@
 
         <div id="tutorialMenu" class="overlay tutorial-overlay">
             <div class="tutorial-content">
-                <h1 style="color: #3498db; margin-bottom: 20px;">ANLEITUNG</h1>
+                <h1 style="color: #ffc26d; margin-bottom: 20px;">ANLEITUNG</h1>
                 <div class="tutorial-text">
-                    <h3 style="color: #f39c12; margin-top: 15px; margin-bottom: 10px;">🎮 Ziel des Spiels</h3>
-                    <p>Überlebe so lange wie möglich und sammle Punkte! Weiche den fallenden Blöcken aus und nutze Power-Ups.</p>
+                    <h3 style="color: #ffc26d; margin-top: 15px; margin-bottom: 10px;">Ziel des Spiels</h2>
+                    <p>Überlebe so lange wie möglich!! Weiche den angreifenden Bienen aus und nutze deine Fähigkeiten.</p>
 
-                    <h3 style="color: #f39c12; margin-top: 15px; margin-bottom: 10px;">⌨️ Steuerung</h3>
-                    <p><strong>WASD oder Pfeiltasten:</strong> Dich bewegen</p>
+                    <h3 style="color: #ffc26d; margin-top: 15px; margin-bottom: 10px;">Steuerung</h2>
+                    <p><strong>WASD:</strong> Bewegen deines Spielers</p>
                     <p><strong>Leertaste (halten):</strong> Zeitlupe aktivieren (Slow-Mo)</p>
-                    <p><strong>Pfeiltasten + Leertaste:</strong> Teleportation nutzen (kostet 30 Energie)</p>
-                    <p><strong>Shift:</strong> Spezialangriff (kostet 50 Energie)</p>
+                    <p><strong>Pfeiltasten + Leertaste:</strong> Teleportationradius anzeigen und mit Leertaste durchführen(kostet 30 Energie)</p>
+                    <p><strong>Shift:</strong> Legt TNT, welches nach 3 Sekunden explodiert und alle Gegner zerstört (kostet 50 Energie)</p>
                     <p><strong>ESC:</strong> Spiel pausieren</p>
 
-                    <h3 style="color: #f39c12; margin-top: 15px; margin-bottom: 10px;">⚡ Energie-System</h3>
-                    <p>Sammle Energie-Items um deine Fähigkeiten zu nutzen. Energie wird durch fallende Items aufgeladen.</p>
+                    <h3 style="color: #ffc26d; margin-top: 15px; margin-bottom: 10px;">Energie-System</h2>
+                    <p>Sammle Energie um deine Fähigkeiten zu nutzen. Energie wird durch Bewegung aufgeladen.</p>
 
-                    <h3 style="color: #f39c12; margin-top: 15px; margin-bottom: 10px;">🎁 Upgrades</h3>
+                    <h3 style="color: #ffc26d; margin-top: 15px; margin-bottom: 10px;">Upgrades</h3>
                     <p>Wenn du eine bestimmte Punktzahl erreichst, wählst du ein Upgrade:</p>
                     <p>• <strong>Tempo:</strong> Deine Geschwindigkeit erhöht sich</p>
                     <p>• <strong>Slow-Mo:</strong> Zeitlupe wird stärker</p>
                     <p>• <strong>Leben:</strong> Ein zusätzliches Leben</p>
 
-                    <h3 style="color: #f39c12; margin-top: 15px; margin-bottom: 10px;">💡 Tipps</h3>
+                    <h3 style="color: #ffc26d; margin-top: 15px; margin-bottom: 10px;">Tipps</h2>
                     <p>• Bleibe immer in Bewegung und weiche rechtzeitig aus</p>
                     <p>• Nutze Zeitlupe für schwierige Momente</p>
                     <p>• Sammle Energie für strategische Vorteile</p>
+                    <p>• Das TNT zerstört ausschließlich böse Gegner</p>
+                    <p>• Wenn du volle Herzen hast, sammel die Herzen trotzdem ein</p>
+
                 </div>
                 <button onclick="closeTutorial()" style="margin-top: 20px;">Zurück</button>
             </div>
         </div>
 
         <div id="sidebar">
-            <h2 style="margin-top: 0;">Status</h2>
+            <h2 style="margin-top: 0; margin-bottom: 10px; font-size: 20px;">Status</h2>
             <div class="stat">Score: <span id="val-score">0</span></div>
             <div class="stat">Highscore: <span id="val-highscore">0</span></div>
             <div class="stat">Tempo: <span id="val-speed">400</span></div>
             <div class="stat">Welle: <span id="val-wave">1</span></div>
             <div class="stat">Leben: <span id="val-lives">❤️</span></div>
             <div class="stat">
-                <div style="margin-bottom: 5px;">Energie: <span id="val-energy" style="font-weight: bold; color: #2ecc71;">0</span>/100</div>
+                <div style="margin-bottom: 5px;">Energie: <span id="val-energy" style="font-weight: bold; color: #f39c12;">0</span>/100</div>
                 <div id="energy-bar">
                     <div id="energy-fill"></div>
                 </div>
             </div>
 
-            <div style="margin-top: 30px; border-top: 1px solid #444; padding-top: 15px;">
-                <p style="font-size: 13px; font-weight: bold; color: #3498db; margin-bottom: 5px;">STEUERUNG:</p>
-                <p style="font-size: 12px; opacity: 0.8; line-height: 1.6;">
+            <div style="margin-top: 10px; border-top: 1px solid #444; padding-top: 5px;">
+                <p style="font-size: 13px; font-weight: bold; color: #f39c12; margin-bottom: 3px;">STEUERUNG:</p>
+                <p style="font-size: 12px; opacity: 0.8; line-height: 1.4; margin: 0;">
                     <strong>WASD:</strong> Bewegen<br>
                     <strong>Leertaste halten:</strong> Slow-Mo<br>
                     <strong>Pfeile + Leertaste:</strong> Port (30 E)<br>
                     <strong>Taste Shift:</strong> Spezial (50 E)<br>
                     <strong>ESC:</strong> Pause
+                </p>
+            </div>
+
+            <div style="margin-top: 10px; border-top: 1px solid #444; padding-top: 5px;">
+                <p style="font-size: 13px; font-weight: bold; color: #f39c12; margin-bottom: 3px;">KOSTEN:</p>
+                <p style="font-size: 12px; opacity: 0.8; line-height: 1.4; margin: 0;">
+                    <strong>Teleport:</strong> 30 Energie<br>
+                    <strong>TNT:</strong> 50 Energie<br>
                 </p>
             </div>
         </div>
