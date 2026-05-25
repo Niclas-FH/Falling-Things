@@ -151,7 +151,9 @@ button:hover {
     width: 100%;
     height: 8px;
     border-radius: 5px;
+<<<<<<< HEAD
     background: #ffca18;
+>>>>>>> fdb3bd54105ab9d76f3df3cd5424ac0b419cf2cd
     outline: none;
     -webkit-appearance: none;
     appearance: none;
@@ -168,7 +170,8 @@ button:hover {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #b8860b;
+<<<<<<< HEAD
+    background: #b8860b;>>>>>>> fdb3bd54105ab9d76f3df3cd5424ac0b419cf2cd
     cursor: pointer;
     transform: translateY(-6px);
 }
@@ -176,13 +179,21 @@ button:hover {
     width: 20px;
     height: 20px;
     border-radius: 50%;
+<<<<<<< HEAD
     background: #b8860b;
+=======
+    background: #d0c200;
+>>>>>>> fdb3bd54105ab9d76f3df3cd5424ac0b419cf2cd
     cursor: pointer;
     border: none;
     transform: translateY(-6px);
 }
 .volume-slider::-moz-range-track {
+<<<<<<< HEAD
     background: #ffca18;
+=======
+    background: #f8e800;
+>>>>>>> fdb3bd54105ab9d76f3df3cd5424ac0b419cf2cd
     border: none;
 }
 .tutorial-overlay {

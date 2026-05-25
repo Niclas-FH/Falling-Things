@@ -29,8 +29,9 @@ const ui = {
         for(let i=0; i<maxLives; i++) heartUI += (i < lives) ? "❤️" : "🖤";
         document.getElementById('val-lives').innerText = heartUI;
         
-        document.getElementById('val-energy').innerText = Math.floor(energy);
-        document.getElementById('energy-fill').style.width = energy + "%";
+        const dispEnergy = Math.max(0, Math.min(100, energy));
+        document.getElementById('val-energy').innerText = Math.floor(dispEnergy);
+        document.getElementById('energy-fill').style.width = dispEnergy + "%";
     },
     showPause(visible) {
         document.getElementById('pauseMenu').classList.toggle('active', visible);

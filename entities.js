@@ -83,7 +83,10 @@ class Player {
             this.lastDirection = currentDirection;
         }
         
-        if (moved && energy < 100) energy += 10 * dt;
+        if (moved && energy < 100) {
+            energy += 10 * dt;
+            if (energy > 100) energy = 100;
+        }
         
         this.x = Math.max(0, Math.min(this.x, 800 - this.size));
         this.y = Math.max(0, Math.min(this.y, 600 - this.size));
